@@ -6,6 +6,13 @@ body {
     margin: 0; /* Remove default margin */
     overflow: hidden; /* Prevent scrolling */
 }
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+}
+
 #input-container {
     margin: 1rem;
     flex: 0.6;
