@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildAnything</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="input-container">
+        <textarea placeholder="Write here what to create or change" id="input-text" rows="10" cols="30"></textarea>
+        <select></select>
+        <button id="submit-button">Generate</button>
+    </div>
+    <div class="right-side">
+        <div id="stream-info">
+            <span id="character-count">Characters streamed: 0</span>
+        </div>
+        <div id="app-container">
+            <iframe id="app" src="about:blank"></iframe>
+        </div>
+        <div id="source-code-container">
+            <pre class="language-html" id="source-code"><code></code></pre>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+

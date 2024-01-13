@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    flex-direction: row;
+    font-family: sans-serif;
+    height: 100vh; /* Set the body height to the viewport height */
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Prevent scrolling */
+}
+#input-container {
+    margin: 1rem;
+    flex: 0.6;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+}
+
+#app-container, #source-code-container {
+    flex: 0.5;
+    overflow: auto;
+    position: relative;
+}
+
+.right-side {
+    flex: 1;
+    margin: 1rem;
+    padding-left: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+iframe, pre {
+    width: 100%;
+    height: 100%; /* Set to the full height of the parent */
+    border: none; /* Remove border */
+    position: absolute; /* Position absolutely within the parent */
+    top: 0;
+    left: 0;
+}
+pre {
+    overflow: auto; /* Add scrollbars if needed */
+    white-space: pre-wrap; /* Wrap text */
+    word-break: break-word; /* Break words */
+    margin: 0;
+}
+textarea { 
+    display: block; 
+    flex: 1;
+    padding: 0.5rem;
+    font: inherit;
+}
+select {
+    margin-top: 0.5rem;
+}
+#stream-info {
+    position: absolute;
+    right: 0;
+    background: rgba(255,255,255,0.8);
+    padding: 0.25rem;
+    z-index: 9;
+    font-size: 0.9rem;
+}
+button {
+    margin-top: .5rem;
+    font-weight: bold;
+}
+button:disabled {
+    background-color: #ccc;
+}
