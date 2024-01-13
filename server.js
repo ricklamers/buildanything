@@ -10,8 +10,10 @@ const cache = new MemoryCache.Cache();
 app.use(express.json()); // Enable JSON body parsing
 app.use(express.static(path.join(__dirname, "public")));
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 app.post("/models", async (req, res) => {
