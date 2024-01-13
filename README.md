@@ -5,7 +5,7 @@ This project allows users to generate HTML code by providing instructions to an 
 ## Demo
 https://github.com/ricklamers/buildanything/assets/1309307/b7f5f7c4-e1bc-42dd-95c1-1b89139f688e
 
-[✨ Live demo](https://buildanything-production.up.railway.app)
+[✨ Live demo](https://buildanything-production.up.railway.app) (Bring Your Own Key)
 
 ## Features
 
