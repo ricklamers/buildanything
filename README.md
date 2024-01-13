@@ -2,6 +2,9 @@
 
 This project allows users to generate HTML code by providing instructions to an AI model. The generated code can be previewed in real-time within an iframe on the webpage.
 
+## Demo
+https://github.com/ricklamers/buildanything/assets/1309307/b7f5f7c4-e1bc-42dd-95c1-1b89139f688e
+
 ## Features
 
 - **AI-Powered Code Generation**: Leverage OpenAI's models to generate HTML and JavaScript code based on user input.
