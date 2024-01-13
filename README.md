@@ -5,6 +5,8 @@ This project allows users to generate HTML code by providing instructions to an 
 ## Demo
 https://github.com/ricklamers/buildanything/assets/1309307/b7f5f7c4-e1bc-42dd-95c1-1b89139f688e
 
+[✨ Live demo](https://buildanything-production.up.railway.app)
+
 ## Features
 
 - **AI-Powered Code Generation**: Leverage OpenAI's models to generate HTML and JavaScript code based on user input.
