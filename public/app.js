@@ -9,7 +9,9 @@ let selectedModel = localStorage.getItem("selectedModel") || "";
 let apiKey = localStorage.getItem("openai_api_key");
 if (!apiKey) {
   apiKey = prompt("Please enter your OpenAI API key:");
-  localStorage.setItem("openai_api_key", apiKey);
+  if(apiKey){
+    localStorage.setItem("openai_api_key", apiKey);
+  }
 }
 
 fetch("/models", {
@@ -39,7 +41,9 @@ document.getElementById("submit-button").addEventListener("click", function () {
   let apiKey = localStorage.getItem("openai_api_key");
   if (!apiKey) {
     apiKey = prompt("Please enter your OpenAI API key:");
-    localStorage.setItem("openai_api_key", apiKey);
+    if(apiKey){
+      localStorage.setItem("openai_api_key", apiKey);
+    }
   }
   const message = document.getElementById("input-text").value;
   const submitButton = document.getElementById("submit-button");
