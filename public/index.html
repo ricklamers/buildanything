@@ -10,7 +10,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -21,7 +20,7 @@
         rows="10"
         cols="30"
       ></textarea>
-      <select></select>
+      <select id="model-select"></select>
       <button id="submit-button">Generate</button>
       <button id="reset-api-key-button">Reset API Key</button>
     </div>
@@ -45,79 +44,69 @@
         return codeWithoutMetadata;
       }
 
-      const modelSelect = document.querySelector("#input-container select");
+      // Updated to handle both OpenAI and Mistral models
+      const modelSelect = document.querySelector("#model-select");
       let selectedModel = localStorage.getItem("selectedModel") || "";
 
-      let apiKey = localStorage.getItem("openai_api_key");
-      if (!apiKey) {
-        apiKey = prompt("Please enter your OpenAI API key:");
-        if (apiKey) {
-          localStorage.setItem("openai_api_key", apiKey);
+      let openaiApiKey = localStorage.getItem("openai_api_key");
+      let mistralApiKey = localStorage.getItem("mistral_api_key");
+      if (!openaiApiKey || !mistralApiKey) {
+        openaiApiKey = prompt("Please enter your OpenAI API key (Leave blank if not available):");
+        mistralApiKey = prompt("Please enter your Mistral API key (Leave blank if not available):");
+        if (openaiApiKey) {
+          localStorage.setItem("openai_api_key", openaiApiKey);
+        }
+        if (mistralApiKey) {
+          localStorage.setItem("mistral_api_key", mistralApiKey);
         }
       }
 
-      document
-        .getElementById("reset-api-key-button")
-        .addEventListener("click", function () {
-          localStorage.removeItem("openai_api_key");
-          alert("API Key has been reset. Please refresh the page.");
-        });
+      document.getElementById("reset-api-key-button").addEventListener("click", function () {
+        localStorage.removeItem("openai_api_key");
+        localStorage.removeItem("mistral_api_key");
+        alert("API Keys have been reset. Please refresh the page.");
+      });
 
       fetch("/models", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ openai_api_key: apiKey }),
+        body: JSON.stringify({ openai_api_key: openaiApiKey, mistral_api_key: mistralApiKey }),
       })
         .then((response) => response.json())
         .then((data) => {
-          const models = data.data.filter((model) => model.id.includes("gpt"));
-          modelSelect.innerHTML = models
-            .map(
-              (model) =>
-                `<option value="${model.id}"${
-                  selectedModel === model.id ? " selected" : ""
-                }>${model.id}</option>`
-            )
-            .join("");
-          selectedModel = modelSelect.value; // Update the selected model with the current selection
-          localStorage.setItem("selectedModel", selectedModel); // Store the selected model in localStorage
+          modelSelect.innerHTML = data.map(model => {
+            const isSelected = selectedModel === `${model.id}-${model.provider}`;
+            return `<option value="${model.id}-${model.provider}"${isSelected ? ' selected' : ''}>${model.id} (${model.provider})</option>`;
+          }).join("");
 
           modelSelect.addEventListener("change", (event) => {
             selectedModel = event.target.value;
-            localStorage.setItem("selectedModel", selectedModel); // Update the stored selected model when it changes
+            localStorage.setItem("selectedModel", selectedModel);
           });
         })
         .catch((error) => console.error("Error fetching models:", error));
 
-      document
-        .getElementById("submit-button")
-        .addEventListener("click", function () {
-          let apiKey = localStorage.getItem("openai_api_key");
-          if (!apiKey) {
-            apiKey = prompt("Please enter your OpenAI API key:");
-            if (apiKey) {
-              localStorage.setItem("openai_api_key", apiKey);
-            }
-          }
-          const message = document.getElementById("input-text").value;
-          const submitButton = document.getElementById("submit-button");
-          const characterCountSpan = document.getElementById("character-count");
-          let streamedCharacters = 0;
-          submitButton.disabled = true;
-          submitButton.textContent = "Loading...";
-          fetch("/generate-completion", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              openai_api_key: apiKey,
-              message: message,
-              model: selectedModel,
-            }),
-          }).then((response) => {
+      document.getElementById("submit-button").addEventListener("click", function () {
+        const message = document.getElementById("input-text").value;
+        const submitButton = document.getElementById("submit-button");
+        const characterCountSpan = document.getElementById("character-count");
+        let streamedCharacters = 0;
+        submitButton.disabled = true;
+        submitButton.textContent = "Loading...";
+        fetch("/generate-completion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            openai_api_key: openaiApiKey,
+            mistral_api_key: mistralApiKey,
+            message: message,
+            model: selectedModel,
+          }),
+        }).then((response) => {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             const appIframe = document.getElementById("app");
@@ -159,7 +148,7 @@
 
             read();
           });
-        });
+      });
     </script>
   </body>
 </html>
